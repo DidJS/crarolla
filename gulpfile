@@ -1,0 +1,66 @@
+var gulp = require('gulp');
+var ts = require('gulp-typescript');
+var sourcemaps = require('gulp-sourcemaps')
+var Config = require('./gulpfile.config');
+
+var config = new Config();
+
+gulp.task('default', ['compile-server-ts'/*, 'compile-client-ts'*/]);
+
+gulp.task('compile-server-ts', function () {
+    var tsProject = ts.createProject('tsconfig.json');
+    var sourceTsFiles = [config.allServerTypeScript,                //path to server typescript files
+                         config.sourceServer]; //reference to library .d.ts files
+
+
+    var tsResult = gulp.src(sourceTsFiles, { base: './src/' })
+                       .pipe(sourcemaps.init())
+                       .pipe(ts(tsProject));
+
+        tsResult.dts.pipe(gulp.dest(config.tsServerOutputPath));
+        return tsResult.js
+                .pipe(sourcemaps.write('./', {includeContent: false, sourceRoot: ''}))
+                .pipe(gulp.dest(config.tsServerOutputPath));
+});
+//
+// gulp.task('compile-client-ts', function () {
+//     var tsProject = ts.createProject('tsconfig.json');
+//     var sourceTsFiles = [config.allClientTypeScript,                //path to client typescript files
+//                          config.libraryTypeScriptDefinitions]; //reference to library .d.ts files
+//
+//
+//     var tsResult = gulp.src(sourceTsFiles)
+//                        .pipe(sourcemaps.init())
+//                        .pipe(ts(tsProject));
+//
+//         tsResult.dts.pipe(gulp.dest(config.tsClientOutputPath));
+//         return tsResult.js
+//                         .pipe(sourcemaps.write('.'))
+//                         .pipe(gulp.dest(config.tsClientOutputPath));
+// });
+
+// gulp.task('scripts', function() {
+//     return tsProject.src()
+//         .pipe(gulp.src(['./app.ts']))
+//         .pipe(ts(tsProject))
+//         .pipe(gulp.dest('./js'));
+// });
+
+// Compile typescript sources
+gulp.task('ts', function() {
+    var tsProject = ts.createProject('tsconfig.json');
+    gulp.src(['./app.ts'])
+        .pipe(sourcemaps.init())
+                       .pipe(ts(tsProject))
+                       .pipe(sourcemaps.write('.'))
+                       .pipe(gulp.dest('./js'));;
+    // gulp.src(['./app.ts'])
+    //     .pipe(ts({module: "CommonJS",
+    //         sourceMap: true,
+    //         emitError: false}))
+    //     .pipe(gulp.dest('./js'));
+});
+
+gulp.task('watch', function() {
+    gulp.watch('./app.ts', ['ts']);
+});
