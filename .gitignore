@@ -1,4 +1,4 @@
 node_modules/
 output/
-public/libs/
+src/client/public/libs/
 typings/
