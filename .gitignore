@@ -1,8 +1,8 @@
 node_modules/
 output/
-public/libs/
+public/**/
+!public/css/
 typings/
-public/
 *.js
 !gulp*
 *.log
