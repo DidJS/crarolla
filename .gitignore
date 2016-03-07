@@ -1,4 +1,9 @@
 node_modules/
 output/
-src/client/public/libs/
+public/libs/
 typings/
+public/
+api/
+*.js
+!gulp*
+*.log

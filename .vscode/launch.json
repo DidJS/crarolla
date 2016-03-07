@@ -5,7 +5,7 @@
 			"name": "Launch",
 			"type": "node",
 			"request": "launch",
-			"program": "${workspaceRoot}/src/server/app.ts",
+			"program": "${workspaceRoot}/app.ts",
 			"stopOnEntry": false,
 			"args": [],
 			"cwd": "${workspaceRoot}",
@@ -18,7 +18,7 @@
 			},
 			"externalConsole": false,
 			"sourceMaps": true,
-			"outDir": "${workspaceRoot}/output/"
+			"outDir": "${workspaceRoot}"
 		},
 		{
 			"name": "Attach",
