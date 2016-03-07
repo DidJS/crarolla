@@ -3,7 +3,6 @@ output/
 public/libs/
 typings/
 public/
-api/
 *.js
 !gulp*
 *.log
