@@ -4,17 +4,18 @@
 import express = require('express');
 import bodyParser = require('body-parser');
 import path = require('path');
+import api = require('./src/api/config/config');
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-console.log(__dirname);
 app.use(express.static(__dirname));
 
 const port = process.env.PORT || 3000;
 
 app.get('/', (req, res): void => {
+    console.log(api.sayHello());
    res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 

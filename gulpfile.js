@@ -28,7 +28,7 @@ gulp.task('compile-typescript-client', function() {
 
         tsResult.dts.pipe(gulp.dest(config.tsClientOutputPath));
         return tsResult.js
-                        .pipe(sourcemaps.write({includeContent: true, sourceRoot: './api'}))
+                        .pipe(sourcemaps.write({sourceRoot: './public/app'}))
                         .pipe(gulp.dest(config.tsClientOutputPath));
 });
 
@@ -44,7 +44,7 @@ gulp.task('compile-typescript-server-api', function() {
 
         tsResult.dts.pipe(gulp.dest(config.tsServerOutputPath));
         return tsResult.js
-                        .pipe(sourcemaps.write({includeContent: true, sourceRoot: './'}))
+                        .pipe(sourcemaps.write({sourceRoot: './api'}))
                         .pipe(gulp.dest(config.tsServerOutputPath));
 });
 
@@ -60,7 +60,7 @@ gulp.task('compile-typescript-server', function() {
 
         tsResult.dts.pipe(gulp.dest(config.tsServerAppOutputPath));
         return tsResult.js
-                        .pipe(sourcemaps.write({includeContent: true}))
+                        .pipe(sourcemaps.write({sourceRoot: '.'}))
                         .pipe(gulp.dest(config.tsServerAppOutputPath));
 });
 

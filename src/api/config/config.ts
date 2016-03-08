@@ -1,3 +1,3 @@
-((): void => {
-    console.log('hello!!!');
-})();
+export function sayHello() {
+        return 'hello';
+    }

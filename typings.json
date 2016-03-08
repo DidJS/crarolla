@@ -1,0 +1,15 @@
+{
+  "name": "crarolla",
+  "version": false,
+  "ambientDependencies": {
+    "express": "github:DefinitelyTyped/DefinitelyTyped/express/express.d.ts#9f0f926a12026287b5a4a229e5672c01e7549313",
+    "serve-static": "github:DefinitelyTyped/DefinitelyTyped/serve-static/serve-static.d.ts#9f0f926a12026287b5a4a229e5672c01e7549313",
+    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#9f0f926a12026287b5a4a229e5672c01e7549313",
+    "mime": "github:DefinitelyTyped/DefinitelyTyped/mime/mime.d.ts#9f0f926a12026287b5a4a229e5672c01e7549313",
+    "mongoose": "github:DefinitelyTyped/DefinitelyTyped/mongoose/mongoose.d.ts#9f0f926a12026287b5a4a229e5672c01e7549313",
+    "body-parser": "github:DefinitelyTyped/DefinitelyTyped/body-parser/body-parser.d.ts#9f0f926a12026287b5a4a229e5672c01e7549313",
+    "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#9f0f926a12026287b5a4a229e5672c01e7549313",
+    "angular": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular.d.ts#9f0f926a12026287b5a4a229e5672c01e7549313",
+    "angular-route": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular-route.d.ts#9f0f926a12026287b5a4a229e5672c01e7549313"
+  }
+}
