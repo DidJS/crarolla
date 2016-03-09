@@ -1,19 +1,18 @@
 'use strict';
 module.exports = (function () {
     var source = './src/',
-        outputClient = './public/',
+        outputClient = './client/',
         outputServer = "./api",
-        sourceClientApp = source + 'client/',
-        sourceServerApp = source;
+        sourceClientApp = source + outputClient,
+        sourceServerApp = source + outputServer;
 
     return {
         sourceServer: './app.ts',
         tsServerAppOutputPath: './',
-        tsServerOutputPath: outputServer,
-        tsClientOutputPath: outputClient,
-        allJavaScript: [source + '/js/**/*.js'],
+        tsServerOutputPath: sourceServerApp,
+        tsClientOutputPath: sourceClientApp,
         allClientTypeScript: sourceClientApp + '/**/*.ts',
-        allServerTypeScript: sourceServerApp + '/api/**/*.ts',
+        allServerTypeScript: sourceServerApp + '/**/*.ts',
         typings: './typings/',
         libraryTypeScriptDefinitions: './typings/**/*.ts'
     }

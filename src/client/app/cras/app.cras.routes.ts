@@ -6,7 +6,7 @@
         .config(['$routeProvider', ($routeProvider: ng.route.IRouteProvider): void => {
             $routeProvider
                     .when('/', {
-                        templateUrl: 'public/app/cras/cra.html',
+                        templateUrl: 'app/cras/cra.html',
                         controller: 'app.cras.CraController',
                         controllerAs: 'vm'
                     });

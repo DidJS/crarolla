@@ -5,15 +5,15 @@ var tsc = require('gulp-typescript');
 var sourcemaps = require('gulp-sourcemaps');
 var config = require('./gulpfile.config');
 
-gulp.task('default', ['compile-typescript-server', 'compile-typescript-server-api', 'copy-angular-html']);
+gulp.task('default', ['compile-typescript-server', 'compile-typescript-server-api', 'inject']);
 
 gulp.task('inject', ['compile-typescript-client'], function () {
   var target = gulp.src('./src/client/index.html');
-  // It's not necessary to read the files (will speed up things), we're only after their paths:
-  var sources = gulp.src(['./public/app/**/*.js']).pipe(angularFilesort());
 
-  return target.pipe(inject(sources), {relative: false})
-    .pipe(gulp.dest('./public'));
+  var sources = gulp.src(['./src/client/app/**/*.js']).pipe(angularFilesort());
+
+  return target.pipe(inject(sources, {relative: true}))
+    .pipe(gulp.dest('./src/client'));
 });
 
 gulp.task('compile-typescript-client', function() {
@@ -28,7 +28,7 @@ gulp.task('compile-typescript-client', function() {
 
         tsResult.dts.pipe(gulp.dest(config.tsClientOutputPath));
         return tsResult.js
-                        .pipe(sourcemaps.write({sourceRoot: './public/app'}))
+                        .pipe(sourcemaps.write({includeContent: true, sourceRoot:'./src/client/app'}))
                         .pipe(gulp.dest(config.tsClientOutputPath));
 });
 
@@ -44,7 +44,7 @@ gulp.task('compile-typescript-server-api', function() {
 
         tsResult.dts.pipe(gulp.dest(config.tsServerOutputPath));
         return tsResult.js
-                        .pipe(sourcemaps.write({sourceRoot: './api'}))
+                        .pipe(sourcemaps.write({includeContent: true, sourceRoot:'./src/api'}))
                         .pipe(gulp.dest(config.tsServerOutputPath));
 });
 
@@ -60,12 +60,12 @@ gulp.task('compile-typescript-server', function() {
 
         tsResult.dts.pipe(gulp.dest(config.tsServerAppOutputPath));
         return tsResult.js
-                        .pipe(sourcemaps.write({sourceRoot: '.'}))
+                        .pipe(sourcemaps.write({includeContent: true, sourceRoot: ''}))
                         .pipe(gulp.dest(config.tsServerAppOutputPath));
 });
 
 gulp.task('copy-angular-html', ['inject'], function() {
     gulp.src('./src/client/app/**/*.html')
     // Perform minification tasks, etc here
-    .pipe(gulp.dest('./public/app'));
+    .pipe(gulp.dest('./src/client'));
 });
