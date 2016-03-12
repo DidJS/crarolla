@@ -10,12 +10,12 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-app.use(express.static(path.join( __dirname, '/src/client')));
+app.use(express.static(path.join( __dirname, '/client')));
 
 const port = process.env.PORT || 3000;
 
 app.get('/', (req, res): void => {
-   res.sendFile(path.join(__dirname + '/src/client/index.html'));
+   res.sendFile(path.join(__dirname + '/client/index.html'));
 });
 
 app.listen(port, () => {
