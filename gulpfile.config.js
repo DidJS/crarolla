@@ -7,7 +7,7 @@ module.exports = (function () {
         sourceServerApp = source + outputServer;
 
     return {
-        sourceServer: './app.ts',
+        sourceServer: './*.ts',
         tsServerAppOutputPath: './',
         tsServerOutputPath: sourceServerApp,
         tsClientOutputPath: sourceClientApp,

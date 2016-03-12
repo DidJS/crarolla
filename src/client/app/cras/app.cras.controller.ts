@@ -1,4 +1,3 @@
-/// <reference path="../../../../typings/angularjs/angular.d.ts" />
 
 module app.cras {
     interface ICraScope {
