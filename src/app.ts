@@ -4,13 +4,17 @@
 import express = require('express');
 import bodyParser = require('body-parser');
 import path = require('path');
-import api = require('./api/config/config');
+import mongoose = require('mongoose');
+import craRouter = require('./api/routes/craRoutes');
 
 const app = express();
+const db = mongoose.connect('mongodb://localhost/craAPI');
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use(express.static(path.join( __dirname, '/client')));
+app.use('/api/cras', craRouter);
 
 const port = process.env.PORT || 3000;
 
@@ -19,6 +23,5 @@ app.get('/', (req, res): void => {
 });
 
 app.listen(port, () => {
-   console.log(api.sayHello());
    console.log('Listening to port', port);
 });
