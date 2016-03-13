@@ -1,1 +1,0 @@
-{"version":3,"sources":["api/config/config.ts"],"names":[],"mappings":";AAAA;IACQ,MAAM,CAAC,OAAO,CAAC;AACnB,CAAC;AAFW,gBAAQ,WAEnB,CAAA","file":"config.js","sourcesContent":["export function sayHello() {\r\n        return 'hello';\r\n    }\r\n"],"sourceRoot":"../.."}
