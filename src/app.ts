@@ -5,7 +5,7 @@ import express = require('express');
 import bodyParser = require('body-parser');
 import path = require('path');
 import mongoose = require('mongoose');
-import craRouter = require('./api/routes/craRoutes');
+import userRouter = require('./api/routes/userRoutes');
 
 const app = express();
 const db = mongoose.connect('mongodb://localhost/craAPI');
@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use(express.static(path.join( __dirname, '/client')));
-app.use('/api/cras', craRouter);
+app.use('/api/users', userRouter);
 
 const port = process.env.PORT || 3000;
 
