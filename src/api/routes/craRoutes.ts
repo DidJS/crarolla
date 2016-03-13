@@ -3,6 +3,11 @@
 import express = require('express')
 import Cra = require('../models/craModel');
 
+interface IRequest extends express.Request {
+    cra: any,
+    cras: any
+}
+
 var router: express.Router = express.Router();
 
 router.route('/')
@@ -26,7 +31,35 @@ router.route('/')
     });
 
 router.use('/:craId', function(req, res, next) {
-    //Cra.findById()
-})
+    Cra.findById(req.params.craId, function(err, cra) {
+       if (err) {
+           res.status(500).send(err);
+       }
+       else {
+           if (cra) {
+               (<IRequest>req).cra = cra;
+               next();
+           }
+           else {
+               res.status(404).send('aucun cra');
+           }
+       }
+    });
+});
+
+router.route('/:cra')
+    .get(function(req, res) {
+        res.json((<IRequest>req).cra);
+    })
+    .delete(function(req, res) {
+        (<IRequest>req).cra.remove(function(err: any) {
+            if (err) {
+                res.status(500).send(err);
+            }
+            else {
+                res.status(204).send('cra supprimé');
+            }
+        })
+    });
 
 export = router;
