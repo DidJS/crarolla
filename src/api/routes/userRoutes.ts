@@ -10,6 +10,16 @@ interface IRequest extends express.Request {
 }
 
 router.route('/')
+    .get((req, res) => {
+        User.find({}, (err, users) => {
+            if (err) {
+                res.status(500).send(err);
+            }
+            else {
+                res.json(users);
+            }
+        })
+    })
     .post((req, res) => {
         const user = new User(req.body);
         user.save();
@@ -36,7 +46,7 @@ router.use('/:userId', (req, res, next) => {
 
 router.route('/:userId')
     .get((req, res) => {
-        res.json((<IRequest>req).user.name);
+        res.json((<IRequest>req).user);
     });
 
 router.route('/:userId/cras')

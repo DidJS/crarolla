@@ -14,7 +14,7 @@ var userModel = new Schema({
         name: {type: String},
         month: {type: Number},
         year: {type: Number},
-        client: {
+        clientId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Client'
         }
