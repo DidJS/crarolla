@@ -1,6 +1,8 @@
 /// <reference path="../../../typings/mongoose/mongoose.d.ts" />
 
 import mongoose = require('mongoose');
+import Client = require('./clientModel');
+
 var Schema = mongoose.Schema;
 
 var userModel = new Schema({
@@ -11,7 +13,11 @@ var userModel = new Schema({
     cras: [{
         name: {type: String},
         month: {type: Number},
-        year: {type: Number}
+        year: {type: Number},
+        client: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Client'
+        }
     }]
 });
 

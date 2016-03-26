@@ -3,7 +3,7 @@
 import express = require('express');
 import User = require('../models/userModel');
 
-var router: express.Router = express.Router();
+var router = express.Router();
 
 interface IRequest extends express.Request {
     user: any;

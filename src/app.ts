@@ -5,16 +5,20 @@ import express = require('express');
 import bodyParser = require('body-parser');
 import path = require('path');
 import mongoose = require('mongoose');
+import config = require('./api/config/config');
 import userRouter = require('./api/routes/userRoutes');
+import clientRouter = require('./api/routes/clientRoutes');
 
 const app = express();
-const db = mongoose.connect('mongodb://localhost/craAPI');
+const db = mongoose.connect(config.mongo.connectionString);
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use(express.static(path.join( __dirname, '/client')));
+
 app.use('/api/users', userRouter);
+app.use('/api/clients', clientRouter);
 
 const port = process.env.PORT || 3000;
 

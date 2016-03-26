@@ -1,3 +1,5 @@
-export function sayHello() {
-        return 'hello';
+export =  {
+    mongo: {
+        connectionString: 'mongodb://localhost/craAPI'
     }
+}
