@@ -8,6 +8,10 @@ import User = require('../models/userModel');
 var router = express.Router();
 
 interface IUser extends mongoose.Document {
+    name: {
+        firstname: String,
+        name: String
+    }
     cras: any;
 }
 
@@ -63,6 +67,19 @@ router.route('/:userId')
                 res.status(204).send('Removed');
             }
         })
+    })
+    .put((req, res) => {
+        (<IRequest>req).user.name.firstname = (<IUser>req.body).name.firstname;
+        (<IRequest>req).user.name.name = (<IUser>req.body).name.name;
+
+        (<IRequest>req).user.save(function(err) {
+            if (err) {
+                res.status(500).send(err);
+            }
+            else {
+                res.json((<IRequest>req).user);
+            }
+        });
     });
 
 router.route('/:userId/cras')
