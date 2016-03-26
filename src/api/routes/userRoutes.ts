@@ -7,12 +7,19 @@ import User = require('../models/userModel');
 
 var router = express.Router();
 
+interface ICra {
+    name: String,
+    month: Number,
+    year: Number,
+    clientId: Number
+}
+
 interface IUser extends mongoose.Document {
     name: {
         firstname: String,
         name: String
     }
-    cras: any;
+    cras: Array<ICra>
 }
 
 interface IRequest extends express.Request {
@@ -85,6 +92,17 @@ router.route('/:userId')
 router.route('/:userId/cras')
     .get((req, res) => {
         res.json((<IRequest>req).user.cras);
+    })
+    .post((req, res) => {
+        (<IRequest>req).user.cras.push(req.body);
+        (<IRequest>req).user.save((err, u) => {
+            if (err) {
+                res.status(500).send(err);
+            }
+            else {
+                res.status(201).send(u);
+            }
+        })
     })
 
 export = router;
