@@ -1,12 +1,13 @@
 /// <reference path="../../../typings/express/express.d.ts" />
 
 import express = require('express');
+import mongoose = require('mongoose');
 import Client = require('../models/clientModel');
 
 var router = express.Router();
 
 interface IRequest extends express.Request {
-    client: any;
+    client: mongoose.Document;
 }
 
 router.route('/')

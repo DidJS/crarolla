@@ -1,12 +1,18 @@
 /// <reference path="../../../typings/express/express.d.ts" />
+/// <reference path="../../../typings/mongoose/mongoose.d.ts" />
 
 import express = require('express');
+import mongoose = require('mongoose');
 import User = require('../models/userModel');
 
 var router = express.Router();
 
+interface IUser extends mongoose.Document {
+    cras: any;
+}
+
 interface IRequest extends express.Request {
-    user: any;
+    user: IUser;
 }
 
 router.route('/')
@@ -34,7 +40,7 @@ router.use('/:userId', (req, res, next) => {
         }
         else {
             if (user) {
-                (<IRequest>req).user = user;
+                (<IRequest>req).user = <IUser>user;
                 next();
             }
             else {
@@ -47,6 +53,16 @@ router.use('/:userId', (req, res, next) => {
 router.route('/:userId')
     .get((req, res) => {
         res.json((<IRequest>req).user);
+    })
+    .delete((req, res) => {
+        (<IRequest>req).user.remove((err) => {
+            if (err) {
+                res.status(500).send(err);
+            }
+            else {
+                res.status(204).send('Removed');
+            }
+        })
     });
 
 router.route('/:userId/cras')
