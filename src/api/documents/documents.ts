@@ -4,17 +4,6 @@ import express = require('express');
 import mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var craModel = new Schema({
-    _id: {type: String},
-    name: {type: String},
-    month: {type: Number},
-    year: {type: Number},
-    clientId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Client'
-    }
-});
-
 export interface ICra extends mongoose.Document {
     _id: String,
     name: String,
@@ -27,7 +16,7 @@ export interface IUser extends mongoose.Document {
     _id: String,
     name: {
         firstname: String,
-        name: String
+        lastname: String
     },
     cras: [ICra]
 }

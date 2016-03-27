@@ -59,7 +59,7 @@ router.route('/:userId')
     })
     .put((req, res) => {
         (<documents.IRequest>req).user.name.firstname = (<documents.IUser>req.body).name.firstname;
-        (<documents.IRequest>req).user.name.name = (<documents.IUser>req.body).name.name;
+        (<documents.IRequest>req).user.name.lastname = (<documents.IUser>req.body).name.lastname;
 
         (<documents.IRequest>req).user.save(function(err) {
             if (err) {
@@ -105,6 +105,21 @@ router.route('/:userId/cras/:craId')
     .get((req, res) => {
         res.json((<documents.IRequest>req).cra);
     })
+    .put((req, res) => {
+        (<documents.IRequest>req).cra.name = (<documents.ICra>req.body).name;
+        (<documents.IRequest>req).cra.month = (<documents.ICra>req.body).month;
+        (<documents.IRequest>req).cra.year = (<documents.ICra>req.body).year;
+        (<documents.IRequest>req).cra.clientId = (<documents.ICra>req.body).clientId;
+
+        (<documents.IRequest>req).user.save((err) => {
+            if (err) {
+                res.status(500).send(err);
+            }
+            else {
+                res.json((<documents.IRequest>req).cra);
+            }
+        });
+    })
     .delete((req, res) => {
         var index = (<documents.IRequest>req).user.cras.indexOf((<documents.IRequest>req).cra);
         (<documents.IRequest>req).user.cras.splice(index, 1);
@@ -116,7 +131,7 @@ router.route('/:userId/cras/:craId')
             else {
                 res.status(204).send('cra removed');
             }
-        })
+        });
     });
 
 export = router;
