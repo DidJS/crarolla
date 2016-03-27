@@ -2,6 +2,7 @@
 
 import mongoose = require('mongoose');
 import Client = require('./clientModel');
+import Cra = require('./craModel');
 
 var Schema = mongoose.Schema;
 
@@ -10,15 +11,7 @@ var userModel = new Schema({
         firstname: {type: String},
         name: {type: String}
     },
-    cras: [{
-        name: {type: String},
-        month: {type: Number},
-        year: {type: Number},
-        clientId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Client'
-        }
-    }]
+    cras: [Cra.schema]
 });
 
 export = mongoose.model('User', userModel);

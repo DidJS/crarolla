@@ -1,30 +1,12 @@
 /// <reference path="../../../typings/express/express.d.ts" />
 /// <reference path="../../../typings/mongoose/mongoose.d.ts" />
-
 import express = require('express');
 import mongoose = require('mongoose');
 import User = require('../models/userModel');
+import Cra = require('../models/craModel');
+import documents = require('../documents/documents');
 
 var router = express.Router();
-
-interface ICra {
-    name: String,
-    month: Number,
-    year: Number,
-    clientId: Number
-}
-
-interface IUser extends mongoose.Document {
-    name: {
-        firstname: String,
-        name: String
-    }
-    cras: Array<ICra>
-}
-
-interface IRequest extends express.Request {
-    user: IUser;
-}
 
 router.route('/')
     .get((req, res) => {
@@ -51,7 +33,7 @@ router.use('/:userId', (req, res, next) => {
         }
         else {
             if (user) {
-                (<IRequest>req).user = <IUser>user;
+                (<documents.IRequest>req).user = <documents.IUser>user;
                 next();
             }
             else {
@@ -63,10 +45,10 @@ router.use('/:userId', (req, res, next) => {
 
 router.route('/:userId')
     .get((req, res) => {
-        res.json((<IRequest>req).user);
+        res.json((<documents.IRequest>req).user);
     })
     .delete((req, res) => {
-        (<IRequest>req).user.remove((err) => {
+        (<documents.IRequest>req).user.remove((err) => {
             if (err) {
                 res.status(500).send(err);
             }
@@ -76,26 +58,26 @@ router.route('/:userId')
         })
     })
     .put((req, res) => {
-        (<IRequest>req).user.name.firstname = (<IUser>req.body).name.firstname;
-        (<IRequest>req).user.name.name = (<IUser>req.body).name.name;
+        (<documents.IRequest>req).user.name.firstname = (<documents.IUser>req.body).name.firstname;
+        (<documents.IRequest>req).user.name.name = (<documents.IUser>req.body).name.name;
 
-        (<IRequest>req).user.save(function(err) {
+        (<documents.IRequest>req).user.save(function(err) {
             if (err) {
                 res.status(500).send(err);
             }
             else {
-                res.json((<IRequest>req).user);
+                res.json((<documents.IRequest>req).user);
             }
         });
     });
 
 router.route('/:userId/cras')
     .get((req, res) => {
-        res.json((<IRequest>req).user.cras);
+        res.json((<documents.IRequest>req).user.cras);
     })
     .post((req, res) => {
-        (<IRequest>req).user.cras.push(req.body);
-        (<IRequest>req).user.save((err, u) => {
+        (<documents.IRequest>req).user.cras.push(req.body);
+        (<documents.IRequest>req).user.save((err, u) => {
             if (err) {
                 res.status(500).send(err);
             }
@@ -103,6 +85,59 @@ router.route('/:userId/cras')
                 res.status(201).send(u);
             }
         })
+    });
+
+router.use('/:userId/cras/:craId', (req, res, next) => {
+    Cra.findById(req.params.craId, (err, cra) => {
+        if (err) {
+            res.status(500).send(err);
+        }
+        else {
+            if (!cra) {
+                res.status(404).send('Cra not found');
+            }
+            else {
+                (<documents.IRequest>req).cra = <documents.ICra>cra;
+                next();
+            }
+        }
+    });
+});
+
+router.route('/:userId/cras/:craId')
+    .get((req, res) => {
+        res.json((<documents.IRequest>req).cra);
     })
+    .delete((req, res) => {
+        Cra.findByIdAndRemove(req.params.craId, (err, cra) => {
+            if (err) {
+                res.status(500).send(err);
+            }
+            else {
+                if (cra) {
+                    res.json('cra removed');
+                }
+            }
+        })
+        // (<documents.IRequest>req).cra.remove((err) => {
+        //     if (err) {
+        //         res.status(500).send(err);
+        //     }
+        //     else {
+        //         var i = (<documents.IRequest>req).user.cras.indexOf((<documents.IRequest>req).cra);
+        //         if (i !== -1) {
+        //             (<documents.IRequest>req).user.cras.splice(i, 1);
+        //         }
+        //         (<documents.IRequest>req).user.save((err) => {
+        //             if (err) {
+        //                 res.status(500).send(err);
+        //             }
+        //             else {
+        //                 res.status(204).send('cra removed');
+        //             }
+        //         })
+        //     }
+        // })
+    });
 
 export = router;
