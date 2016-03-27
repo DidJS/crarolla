@@ -1,9 +1,9 @@
 /// <reference path="../../../typings/mongoose/mongoose.d.ts" />
 
 import mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-var craSchema = new Schema({
+const craSchema = new Schema({
     name: {type: String},
     month: {type: Number},
     year: {type: Number},

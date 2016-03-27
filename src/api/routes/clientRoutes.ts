@@ -4,7 +4,7 @@ import express = require('express');
 import mongoose = require('mongoose');
 import Client = require('../models/clientModel');
 
-var router = express.Router();
+const router = express.Router();
 
 interface IRequest extends express.Request {
     client: mongoose.Document;
@@ -22,7 +22,7 @@ router.route('/')
         })
     })
     .post((req, res) => {
-       var client = new Client(req.body);
+       const client = new Client(req.body);
        client.save((err, result) => {
            if (err) {
                res.status(500).send(err);

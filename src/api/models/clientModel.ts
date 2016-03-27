@@ -3,7 +3,7 @@
 import mongoose = require('mongoose');
 import Schema = mongoose.Schema;
 
-var clientModel = new Schema({
+const clientModel = new Schema({
     name: {type: String, required: true}
 });
 

@@ -4,9 +4,9 @@ import mongoose = require('mongoose');
 import Cra = require('./craModel');
 import documents = require('../contracts/contracts');
 
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-var userSchema = new Schema({
+const userSchema = new Schema({
     name: {
         firstname: {type: String, required: true},
         lastname: {type: String, required: true}

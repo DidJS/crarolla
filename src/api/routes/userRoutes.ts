@@ -6,7 +6,7 @@ import User = require('../models/userModel');
 import Cra = require('../models/craModel');
 import documents = require('../contracts/contracts');
 
-var router = express.Router();
+const router = express.Router();
 
 router.route('/')
     .get((req, res) => {
@@ -90,7 +90,7 @@ router.route('/:userId/cras')
     });
 
 router.use('/:userId/cras/:craId', (req, res, next) => {
-    var cras = (<documents.IRequest>req).user.cras.filter((cra) => {
+    const cras = (<documents.IRequest>req).user.cras.filter((cra) => {
         return cra._id == req.params.craId
     });
 
@@ -123,7 +123,7 @@ router.route('/:userId/cras/:craId')
         });
     })
     .delete((req, res) => {
-        var index = (<documents.IRequest>req).user.cras.indexOf((<documents.IRequest>req).cra);
+        const index = (<documents.IRequest>req).user.cras.indexOf((<documents.IRequest>req).cra);
         (<documents.IRequest>req).user.cras.splice(index, 1);
 
         (<documents.IRequest>req).user.save((err) => {
