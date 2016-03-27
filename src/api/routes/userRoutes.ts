@@ -27,7 +27,9 @@ router.route('/')
     })
 
 router.use('/:userId', (req, res, next) => {
-    User.findById(req.params.userId, (err, user) => {
+    User.findById(req.params.userId)
+    .populate('cras.clientId')
+    .exec((err, user) => {
         if (err) {
             res.status(500).send(err);
         }
