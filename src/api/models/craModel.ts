@@ -3,7 +3,7 @@
 import mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var craModel = new Schema({
+var craSchema = new Schema({
     name: {type: String},
     month: {type: Number},
     year: {type: Number},
@@ -13,4 +13,4 @@ var craModel = new Schema({
     }
 });
 
-export = mongoose.model('Cra', craModel);
+export = craSchema;

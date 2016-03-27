@@ -3,6 +3,7 @@
 import mongoose = require('mongoose');
 import Client = require('./clientModel');
 import Cra = require('./craModel');
+import documents = require('../documents/documents');
 
 var Schema = mongoose.Schema;
 
@@ -11,7 +12,7 @@ var userModel = new Schema({
         firstname: {type: String},
         name: {type: String}
     },
-    cras: [Cra.schema]
+    cras: [Cra]
 });
 
-export = mongoose.model('User', userModel);
+export = mongoose.model<documents.IUser>('User', userModel);

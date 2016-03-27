@@ -33,7 +33,7 @@ router.use('/:userId', (req, res, next) => {
         }
         else {
             if (user) {
-                (<documents.IRequest>req).user = <documents.IUser>user;
+                (<documents.IRequest>req).user = user;
                 next();
             }
             else {
@@ -88,20 +88,17 @@ router.route('/:userId/cras')
     });
 
 router.use('/:userId/cras/:craId', (req, res, next) => {
-    Cra.findById(req.params.craId, (err, cra) => {
-        if (err) {
-            res.status(500).send(err);
-        }
-        else {
-            if (!cra) {
-                res.status(404).send('Cra not found');
-            }
-            else {
-                (<documents.IRequest>req).cra = <documents.ICra>cra;
-                next();
-            }
-        }
+    var cras = (<documents.IRequest>req).user.cras.filter((cra) => {
+        return cra._id == req.params.craId
     });
+
+    if (!cras || cras.length === 0) {
+        res.status(404).send('Cra not found');
+    }
+    else {
+        (<documents.IRequest>req).cra = cras[0];
+        next();
+    }
 });
 
 router.route('/:userId/cras/:craId')
@@ -109,35 +106,17 @@ router.route('/:userId/cras/:craId')
         res.json((<documents.IRequest>req).cra);
     })
     .delete((req, res) => {
-        Cra.findByIdAndRemove(req.params.craId, (err, cra) => {
+        var index = (<documents.IRequest>req).user.cras.indexOf((<documents.IRequest>req).cra);
+        (<documents.IRequest>req).user.cras.splice(index, 1);
+
+        (<documents.IRequest>req).user.save((err) => {
             if (err) {
                 res.status(500).send(err);
             }
             else {
-                if (cra) {
-                    res.json('cra removed');
-                }
+                res.status(204).send('cra removed');
             }
         })
-        // (<documents.IRequest>req).cra.remove((err) => {
-        //     if (err) {
-        //         res.status(500).send(err);
-        //     }
-        //     else {
-        //         var i = (<documents.IRequest>req).user.cras.indexOf((<documents.IRequest>req).cra);
-        //         if (i !== -1) {
-        //             (<documents.IRequest>req).user.cras.splice(i, 1);
-        //         }
-        //         (<documents.IRequest>req).user.save((err) => {
-        //             if (err) {
-        //                 res.status(500).send(err);
-        //             }
-        //             else {
-        //                 res.status(204).send('cra removed');
-        //             }
-        //         })
-        //     }
-        // })
     });
 
 export = router;

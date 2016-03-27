@@ -5,6 +5,7 @@ import mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var craModel = new Schema({
+    _id: {type: String},
     name: {type: String},
     month: {type: Number},
     year: {type: Number},
@@ -15,6 +16,7 @@ var craModel = new Schema({
 });
 
 export interface ICra extends mongoose.Document {
+    _id: String,
     name: String,
     month: Number,
     year: Number,
@@ -22,6 +24,7 @@ export interface ICra extends mongoose.Document {
 }
 
 export interface IUser extends mongoose.Document {
+    _id: String,
     name: {
         firstname: String,
         name: String
