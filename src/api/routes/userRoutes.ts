@@ -4,7 +4,7 @@ import express = require('express');
 import mongoose = require('mongoose');
 import User = require('../models/userModel');
 import Cra = require('../models/craModel');
-import documents = require('../documents/documents');
+import documents = require('../contracts/contracts');
 
 var router = express.Router();
 

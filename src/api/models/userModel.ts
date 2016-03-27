@@ -2,7 +2,7 @@
 
 import mongoose = require('mongoose');
 import Cra = require('./craModel');
-import documents = require('../documents/documents');
+import documents = require('../contracts/contracts');
 
 var Schema = mongoose.Schema;
 

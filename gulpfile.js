@@ -3,7 +3,6 @@ var angularFilesort = require('gulp-angular-filesort');
 var inject = require('gulp-inject');
 var tsc = require('gulp-typescript');
 var sourcemaps = require('gulp-sourcemaps');
-var config = require('./gulpfile.config');
 
 gulp.task('default', ['inject']);
 
