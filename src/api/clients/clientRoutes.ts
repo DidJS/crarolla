@@ -1,58 +1,18 @@
 /// <reference path="../../../typings/express/express.d.ts" />
 
-import express = require('express');
-import mongoose = require('mongoose');
-import Client = require('./clientModel');
+import * as express from 'express';
+import * as mongoose from 'mongoose';
+import clientController from './clientController';
 
 const router = express.Router();
 
-interface IRequest extends express.Request {
-    client: mongoose.Document;
-}
-
 router.route('/')
-    .get((req, res) => {
-        Client.find({}, (err, clients) => {
-            if (err) {
-                res.status(500).send(err);
-            }
-            else {
-                res.json(clients);
-            }
-        })
-    })
-    .post((req, res) => {
-       const client = new Client(req.body);
-       client.save((err, result) => {
-           if (err) {
-               res.status(500).send(err);
-           }
-           else {
-               res.status(201).send(result);
-           }
-       });
-    });
+    .get(clientController.getClients)
+    .post(clientController.createClient);
 
-router.use('/:clientId', (req, res, next) => {
-    Client.findById(req.params.clientId, (err, client) => {
-        if (err) {
-            res.status(500).send(err);
-        }
-        else {
-            if (!client) {
-                res.status(404).send('No client found');
-            }
-            else {
-                (<IRequest>req).client = client;
-                next();
-            }
-        }
-    })
-});
+router.use('/:clientId', clientController.attachClientToRequestObjectById);
 
 router.route('/:clientId')
-    .get((req, res) => {
-        res.json((<IRequest>req).client);
-    })
+    .get(clientController.getClient);
 
-export = router;
+export default router;

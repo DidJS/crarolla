@@ -1,7 +1,8 @@
 /// <reference path="../../../typings/mongoose/mongoose.d.ts" />
 
-import mongoose = require('mongoose');
-import contracts = require('../contracts/contracts');
+import * as mongoose from 'mongoose';
+import { ICra } from '../contracts/contracts';
+
 const Schema = mongoose.Schema;
 
 const craSchema = new Schema({
@@ -30,4 +31,4 @@ const craSchema = new Schema({
     file: {data: Buffer, contentType: String}
 });
 
-export = mongoose.model<contracts.ICra>('Cra', craSchema);
+export default mongoose.model<ICra>('Cra', craSchema);

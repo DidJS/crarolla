@@ -1,6 +1,7 @@
 /// <reference path="../../../typings/mongoose/mongoose.d.ts" />
 
-import mongoose = require('mongoose');
+import * as mongoose from 'mongoose';
+import { IClient } from '../contracts/contracts';
 
 import Schema = mongoose.Schema;
 
@@ -8,4 +9,4 @@ const clientModel = new Schema({
     name: {type: String, required: true}
 });
 
-export = mongoose.model('Client', clientModel);
+export default mongoose.model<IClient>('Client', clientModel);

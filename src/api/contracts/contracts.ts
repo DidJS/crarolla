@@ -1,8 +1,12 @@
 /// <reference path="../../../typings/express/express.d.ts" />
 /// <reference path="../../../typings/mongoose/mongoose.d.ts" />
-import express = require('express');
-import mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+import * as express from 'express';
+import * as mongoose from 'mongoose';
+
+interface IClient extends mongoose.Document {
+    _id: String,
+    name: String
+}
 
 interface ICra extends mongoose.Document {
     _id: String,
@@ -34,7 +38,8 @@ interface IUser extends mongoose.Document {
 
 interface IRequest extends express.Request {
     user: IUser,
-    cra: ICra
+    cra: ICra,
+    client: IClient
 }
 
-export {ICra, IUser, IRequest}
+export {ICra, IUser, IRequest, IClient}

@@ -1,13 +1,14 @@
 /// <reference path="../typings/express/express.d.ts" />
 /// <reference path="../typings/body-parser/body-parser.d.ts" />
 
-import express = require('express');
-import bodyParser = require('body-parser');
-import path = require('path');
-import mongoose = require('mongoose');
-import config = require('./api/config');
-import userRouter = require('./api/users/userRoutes');
-import clientRouter = require('./api/clients/clientRoutes');
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
+import * as path from 'path';
+import * as mongoose from 'mongoose';
+import { config } from './api/config';
+import userRouter from './api/users/userRoutes';
+import clientRouter from './api/clients/clientRoutes';
+import craRouter from './api/cras/craRoutes';
 
 const app = express();
 const db = mongoose.connect(config.mongo.connectionString);
@@ -19,6 +20,7 @@ app.use(express.static(path.join( __dirname, '/client')));
 
 app.use('/api/users', userRouter);
 app.use('/api/clients', clientRouter);
+app.use('/api/users/:userId/cras', craRouter);
 
 const port = process.env.PORT || 3000;
 

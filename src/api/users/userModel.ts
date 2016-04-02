@@ -1,7 +1,7 @@
 /// <reference path="../../../typings/mongoose/mongoose.d.ts" />
 
-import mongoose = require('mongoose');
-import documents = require('../contracts/contracts');
+import * as mongoose from 'mongoose';
+import { IUser } from '../contracts/contracts';
 
 const Schema = mongoose.Schema;
 
@@ -12,4 +12,4 @@ const userSchema = new Schema({
     }
 });
 
-export = mongoose.model<documents.IUser>('User', userSchema);
+export default mongoose.model<IUser>('User', userSchema);
