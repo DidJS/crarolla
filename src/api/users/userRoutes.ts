@@ -12,7 +12,7 @@ router.route('/')
     .get((req, res) => {
         User.find({}, (err, users) => {
             if (err) {
-                res.sendStatus(500).send(err);
+                res.status(500).send(err);
             }
             else {
                 res.json(users);
@@ -23,13 +23,13 @@ router.route('/')
         const user = new User(req.body);
         user.save();
 
-        res.sendStatus(201).send(user);
+        res.status(201).send(user);
     })
 
 router.use('/:userId', (req, res, next) => {
     User.findById(req.params.userId, (err, user) => {
         if (err) {
-            res.sendStatus(500).send(err);
+            res.status(500).send(err);
         }
         else {
             if (user) {
@@ -37,7 +37,7 @@ router.use('/:userId', (req, res, next) => {
                 next();
             }
             else {
-                res.sendStatus(404).send('No users found');
+                res.send('No users found');
             }
         }
     })
@@ -50,10 +50,10 @@ router.route('/:userId')
     .delete((req, res) => {
         (<documents.IRequest>req).user.remove((err) => {
             if (err) {
-                res.sendStatus(500).send(err);
+                res.status(500).send(err);
             }
             else {
-                res.sendStatus(204).send('Removed');
+                res.status(204).send('Removed');
             }
         })
     })
@@ -63,7 +63,7 @@ router.route('/:userId')
 
         (<documents.IRequest>req).user.save(function(err) {
             if (err) {
-                res.sendStatus(500).send(err);
+                res.status(500).send(err);
             }
             else {
                 res.json((<documents.IRequest>req).user);
@@ -75,14 +75,14 @@ router.route('/:userId/cras')
     .get((req, res) => {
         Cra.find({userId: (<documents.IRequest>req).user._id}, (err, cras) => {
             if (err) {
-                res.sendStatus(500).send(err);
+                res.status(500).send(err);
             }
             else {
                 if (cras) {
                     res.json(cras);
                 }
                 else {
-                    res.sendStatus(404).send('No cras yet');
+                    res.status(404).send('No cras yet');
                 }
             }
         })
@@ -91,12 +91,12 @@ router.route('/:userId/cras')
     .post((req, res) => {
         const cra = new Cra(req.body);
 
-        cra.save((err, cra) => {
+        cra.save((err) => {
             if (err) {
-                res.sendStatus(500).send(err);
+                res.status(500).send(err);
             }
             else {
-                res.send(201).send(cra);
+                res.status(201).send(cra);
             }
         });
     });
@@ -106,15 +106,15 @@ router.use('/:userId/cras/:craId', (req, res, next) => {
     .populate('clientId')
     .exec((err, cra) => {
         if (err) {
-            res.sendStatus(500).send(err);
+            res.status(500).send(err);
         }
         else {
             if (cra) {
-                res.json(cra);
+                (<documents.IRequest>req).cra = cra;
                 next();
             }
             else {
-                res.sendStatus(404).send('Cra not found');
+                res.status(404).send('Cra not found');
             }
         }
     });
@@ -133,7 +133,7 @@ router.route('/:userId/cras/:craId')
 
         (<documents.IRequest>req).cra.save((err, cra) => {
             if (err) {
-                res.sendStatus(500).send(err);
+                res.status(500).send(err);
             }
             else {
                 res.json(cra);
@@ -143,10 +143,10 @@ router.route('/:userId/cras/:craId')
     .delete((req, res) => {
         (<documents.IRequest>req).cra.remove((err) => {
             if (err) {
-                res.sendStatus(500).send(err);
+                res.status(500).send(err);
             }
             else {
-                res.sendStatus(204).send('Cra deleted successfully');
+                res.status(204).send('Cra deleted successfully');
             }
         });
     });
