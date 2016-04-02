@@ -129,6 +129,16 @@ router.route('/:userId/cras/:craId')
         (<documents.IRequest>req).cra.name = (<documents.ICra>req.body).name;
         (<documents.IRequest>req).cra.month = (<documents.ICra>req.body).month;
         (<documents.IRequest>req).cra.year = (<documents.ICra>req.body).year;
+        (<documents.IRequest>req).cra.holidays = (<documents.ICra>req.body).holidays;
+        (<documents.IRequest>req).cra.intercontract = (<documents.ICra>req.body).intercontract;
+        (<documents.IRequest>req).cra.workingDays = (<documents.ICra>req.body).workingDays;
+        (<documents.IRequest>req).cra.nonWorkingDays = (<documents.ICra>req.body).nonWorkingDays;
+        (<documents.IRequest>req).cra.workingTimeReduction = (<documents.ICra>req.body).workingTimeReduction;
+        (<documents.IRequest>req).cra.unpaidLeave = (<documents.ICra>req.body).unpaidLeave;
+        (<documents.IRequest>req).cra.sickLeave = (<documents.ICra>req.body).sickLeave;
+        (<documents.IRequest>req).cra.exceptionalLeave = (<documents.ICra>req.body).exceptionalLeave;
+        (<documents.IRequest>req).cra.training = (<documents.ICra>req.body).training;
+        (<documents.IRequest>req).cra.costs = (<documents.ICra>req.body).costs;
         (<documents.IRequest>req).cra.clientId = (<documents.ICra>req.body).clientId;
 
         (<documents.IRequest>req).cra.save((err, cra) => {
