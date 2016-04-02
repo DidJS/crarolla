@@ -1,15 +1,15 @@
-
 module app.cras {
     interface ICraScope {
         title: string;
     }
 
-    class CraController implements ICraScope {
-        title: string;
+    function CraController(): ICraScope {
 
-        constructor() {
-            this.title = 'Hello world of cras';
-        }
+       const title: string = 'Hello world of cras';
+
+       return {
+           title: title
+       }
     }
 
     angular

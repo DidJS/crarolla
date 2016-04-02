@@ -5,9 +5,9 @@ import express = require('express');
 import bodyParser = require('body-parser');
 import path = require('path');
 import mongoose = require('mongoose');
-import config = require('./api/config/config');
-import userRouter = require('./api/routes/userRoutes');
-import clientRouter = require('./api/routes/clientRoutes');
+import config = require('./api/config');
+import userRouter = require('./api/users/userRoutes');
+import clientRouter = require('./api/clients/clientRoutes');
 
 const app = express();
 const db = mongoose.connect(config.mongo.connectionString);

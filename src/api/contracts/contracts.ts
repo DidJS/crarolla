@@ -4,24 +4,37 @@ import express = require('express');
 import mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-export interface ICra extends mongoose.Document {
+interface ICra extends mongoose.Document {
     _id: String,
+    userId: Number,
     name: String,
     month: Number,
     year: Number,
+    workingDays: Number,
+    nonWorkingDays: Number,
+    workingTimeReduction: Number,
+    holidays: Number,
+    unpaidLeave: Number,
+    sickLeave: Number,
+    exceptionalLeave: Number,
+    intercontract: Number,
+    training: Number,
+    costs: Number,
+    comments: String,
     clientId: Number
 }
 
-export interface IUser extends mongoose.Document {
+interface IUser extends mongoose.Document {
     _id: String,
     name: {
         firstname: String,
         lastname: String
-    },
-    cras: [ICra]
+    }
 }
 
-export interface IRequest extends express.Request {
+interface IRequest extends express.Request {
     user: IUser,
     cra: ICra
 }
+
+export {ICra, IUser, IRequest}

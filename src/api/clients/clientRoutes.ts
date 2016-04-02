@@ -2,7 +2,7 @@
 
 import express = require('express');
 import mongoose = require('mongoose');
-import Client = require('../models/clientModel');
+import Client = require('./clientModel');
 
 const router = express.Router();
 

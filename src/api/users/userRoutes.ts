@@ -2,8 +2,8 @@
 /// <reference path="../../../typings/mongoose/mongoose.d.ts" />
 import express = require('express');
 import mongoose = require('mongoose');
-import User = require('../models/userModel');
-import Cra = require('../models/craModel');
+import User = require('./userModel');
+import Cra = require('../cras/craModel');
 import documents = require('../contracts/contracts');
 
 const router = express.Router();
@@ -12,7 +12,7 @@ router.route('/')
     .get((req, res) => {
         User.find({}, (err, users) => {
             if (err) {
-                res.status(500).send(err);
+                res.sendStatus(500).send(err);
             }
             else {
                 res.json(users);
@@ -23,15 +23,13 @@ router.route('/')
         const user = new User(req.body);
         user.save();
 
-        res.status(201).send(user);
+        res.sendStatus(201).send(user);
     })
 
 router.use('/:userId', (req, res, next) => {
-    User.findById(req.params.userId)
-    .populate('cras.clientId')
-    .exec((err, user) => {
+    User.findById(req.params.userId, (err, user) => {
         if (err) {
-            res.status(500).send(err);
+            res.sendStatus(500).send(err);
         }
         else {
             if (user) {
@@ -39,7 +37,7 @@ router.use('/:userId', (req, res, next) => {
                 next();
             }
             else {
-                res.status(404).send('No users found');
+                res.sendStatus(404).send('No users found');
             }
         }
     })
@@ -52,10 +50,10 @@ router.route('/:userId')
     .delete((req, res) => {
         (<documents.IRequest>req).user.remove((err) => {
             if (err) {
-                res.status(500).send(err);
+                res.sendStatus(500).send(err);
             }
             else {
-                res.status(204).send('Removed');
+                res.sendStatus(204).send('Removed');
             }
         })
     })
@@ -65,7 +63,7 @@ router.route('/:userId')
 
         (<documents.IRequest>req).user.save(function(err) {
             if (err) {
-                res.status(500).send(err);
+                res.sendStatus(500).send(err);
             }
             else {
                 res.json((<documents.IRequest>req).user);
@@ -75,32 +73,51 @@ router.route('/:userId')
 
 router.route('/:userId/cras')
     .get((req, res) => {
-        res.json((<documents.IRequest>req).user.cras);
-    })
-    .post((req, res) => {
-        (<documents.IRequest>req).user.cras.push(req.body);
-        (<documents.IRequest>req).user.save((err, u) => {
+        Cra.find({userId: (<documents.IRequest>req).user._id}, (err, cras) => {
             if (err) {
-                res.status(500).send(err);
+                res.sendStatus(500).send(err);
             }
             else {
-                res.status(201).send(u);
+                if (cras) {
+                    res.json(cras);
+                }
+                else {
+                    res.sendStatus(404).send('No cras yet');
+                }
             }
         })
+
+    })
+    .post((req, res) => {
+        const cra = new Cra(req.body);
+
+        cra.save((err, cra) => {
+            if (err) {
+                res.sendStatus(500).send(err);
+            }
+            else {
+                res.send(201).send(cra);
+            }
+        });
     });
 
 router.use('/:userId/cras/:craId', (req, res, next) => {
-    const cras = (<documents.IRequest>req).user.cras.filter((cra) => {
-        return cra._id == req.params.craId
+    Cra.findById(req.params.craId)
+    .populate('clientId')
+    .exec((err, cra) => {
+        if (err) {
+            res.sendStatus(500).send(err);
+        }
+        else {
+            if (cra) {
+                res.json(cra);
+                next();
+            }
+            else {
+                res.sendStatus(404).send('Cra not found');
+            }
+        }
     });
-
-    if (!cras || cras.length === 0) {
-        res.status(404).send('Cra not found');
-    }
-    else {
-        (<documents.IRequest>req).cra = cras[0];
-        next();
-    }
 });
 
 router.route('/:userId/cras/:craId')
@@ -108,30 +125,28 @@ router.route('/:userId/cras/:craId')
         res.json((<documents.IRequest>req).cra);
     })
     .put((req, res) => {
+        (<documents.IRequest>req).cra.userId = (<documents.ICra>req.body).userId;
         (<documents.IRequest>req).cra.name = (<documents.ICra>req.body).name;
         (<documents.IRequest>req).cra.month = (<documents.ICra>req.body).month;
         (<documents.IRequest>req).cra.year = (<documents.ICra>req.body).year;
         (<documents.IRequest>req).cra.clientId = (<documents.ICra>req.body).clientId;
 
-        (<documents.IRequest>req).user.save((err) => {
+        (<documents.IRequest>req).cra.save((err, cra) => {
             if (err) {
-                res.status(500).send(err);
+                res.sendStatus(500).send(err);
             }
             else {
-                res.json((<documents.IRequest>req).cra);
+                res.json(cra);
             }
         });
     })
     .delete((req, res) => {
-        const index = (<documents.IRequest>req).user.cras.indexOf((<documents.IRequest>req).cra);
-        (<documents.IRequest>req).user.cras.splice(index, 1);
-
-        (<documents.IRequest>req).user.save((err) => {
+        (<documents.IRequest>req).cra.remove((err) => {
             if (err) {
-                res.status(500).send(err);
+                res.sendStatus(500).send(err);
             }
             else {
-                res.status(204).send('cra removed');
+                res.sendStatus(204).send('Cra deleted successfully');
             }
         });
     });
